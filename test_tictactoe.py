@@ -1,5 +1,5 @@
 import pytest
-from tictactoe import initial_state, player, actions, result, winner
+from tictactoe import initial_state, player, actions, result, winner, terminal
 
 EMPTY = None
 
@@ -92,17 +92,26 @@ def test_winner_tie():
              ['O', 'X', 'X']]
     assert(winner(board) == None)
 
-
-
-def test_terminal_false():
-    board = [['X', 'O', EMPTY],
-             ['X', 'O', 'X'],
-             ['O', 'O', 'X']]
-    assert(terminal(board) == False)
-
-
-def test_terminal_true():
+def test_terminal_no_winner():
     board = [['X', 'O', 'X'],
              ['X', 'O', 'O'],
              ['O', 'X', 'X']]
     assert(terminal(board) == True)
+
+def test_terminal_o_winner():
+    board = [['X', 'O', 'X'],
+             ['X', 'O', 'O'],
+             ['O', 'O', 'X']]
+    assert(terminal(board) == True)
+
+def test_terminal_x_winner():
+    board = [['X', 'X', 'O'],
+            ['O', 'X', 'O'],
+            ['X', 'O', 'X']]
+    assert(terminal(board) == True)
+
+def test_terminal_unfinished():
+    board = [['X', 'X', 'O'],
+            ['O', EMPTY, 'O'],
+            ['X', 'O', 'X']]
+    assert(terminal(board) == False)
