@@ -1,5 +1,5 @@
 import pytest
-from tictactoe import initial_state, player, actions, result, winner, terminal
+from tictactoe import initial_state, player, actions, result, winner, terminal, utility
 
 EMPTY = None
 
@@ -115,3 +115,21 @@ def test_terminal_unfinished():
             ['O', EMPTY, 'O'],
             ['X', 'O', 'X']]
     assert(terminal(board) == False)
+
+def test_utility_x_winner():
+    board = [['X', 'X', 'O'],
+            ['O', 'X', 'O'],
+            ['X', 'O', 'X']]
+    assert(utility(board) == 1)
+
+def test_utility_o_winner():
+    board = [['X', 'O', 'X'],
+             ['X', 'O', 'O'],
+             ['O', 'O', 'X']]
+    assert(utility(board) == -1)
+
+def test_utility_no_winner():
+    board = [['X', 'O', 'X'],
+             ['X', 'O', 'O'],
+             ['O', 'X', 'X']]
+    assert(utility(board) == 0)
