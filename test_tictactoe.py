@@ -1,5 +1,5 @@
 import pytest
-from tictactoe import initial_state, player, actions, result, winner, terminal, utility
+from tictactoe import initial_state, player, actions, result, winner, terminal, utility, minimax
 
 EMPTY = None
 
@@ -133,3 +133,9 @@ def test_utility_no_winner():
              ['X', 'O', 'O'],
              ['O', 'X', 'X']]
     assert(utility(board) == 0)
+
+def test_mini_max_one_move():
+    board = [['X', 'X', EMPTY],
+             ['O', 'X', 'O'],
+             [EMPTY, 'O', EMPTY]]
+    assert(minimax(board) == (2,2))
