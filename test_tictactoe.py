@@ -116,6 +116,18 @@ def test_terminal_unfinished():
             ['X', 'O', 'X']]
     assert(terminal(board) == False)
 
+def test_terminal_winner_unfinished():
+    board = [['X', 'X', EMPTY],
+            ['X', EMPTY, 'O'],
+            ['X', 'O', 'O']]
+    assert(terminal(board) == True)
+
+def test_terminal_example():
+    board = [['X', 'X', EMPTY],
+             ['O', 'X', 'O'],
+             [EMPTY, 'O', EMPTY]]
+    assert(terminal(board) == False)
+
 def test_utility_x_winner():
     board = [['X', 'X', 'O'],
             ['O', 'X', 'O'],
@@ -134,8 +146,41 @@ def test_utility_no_winner():
              ['O', 'X', 'X']]
     assert(utility(board) == 0)
 
-def test_mini_max_one_move():
+def test_mini_max_x():
     board = [['X', 'X', EMPTY],
              ['O', 'X', 'O'],
              [EMPTY, 'O', EMPTY]]
+    assert(minimax(board) == (2,2) or minimax(board) == (0,2))
+
+def test_mini_max_x_2():
+    board = [['X', 'X', EMPTY],
+             ['O', 'O', 'X'],
+             [EMPTY, 'O', EMPTY]]
+    assert(minimax(board) == (0,2))
+
+def test_mini_max_x_3():
+    board = [['X', 'O', EMPTY],
+             ['X', 'O', 'X'],
+             [EMPTY, EMPTY, 'O']]
+    assert(minimax(board) == (2,0))
+
+def test_mini_max_o():
+    board = [['X', 'X', 'O'],
+             [EMPTY, 'X', 'O'],
+             ['X', 'O', EMPTY]]
     assert(minimax(board) == (2,2))
+
+def test_mini_max_o_2():
+    board = [['X', EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY]]
+    assert(minimax(board) == (1,1))
+
+# def main():
+#     board = [['X', EMPTY, EMPTY],
+#                 [EMPTY, EMPTY, EMPTY],
+#                 [EMPTY, EMPTY, EMPTY]]
+#     minimax(board)
+
+# if __name__ == '__main__':
+#     main()

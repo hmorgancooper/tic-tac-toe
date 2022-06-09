@@ -90,17 +90,18 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    # if board is full stop game
+    full = True
     for i in range(3):
-        for j in range(3):
-            if board[i][j] == EMPTY:
-                return False
+            for j in range(3):
+                if board[i][j] == EMPTY:
+                    full = False
+    if full == True:
+        return True
     # If there is a winner stop game
-    if winner(board) != None:
+    elif winner(board) != None:
         return True
-    # otherwise carry on!
     else:
-        return True
+        return False
             
 
 
@@ -121,30 +122,48 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
     if terminal(board):
-        return None
+         return None
     # Get player
     p = player(board)   
-    # Get possible actions
-    a = actions(board)
     if p == 'X':
-        v = float('-inf')
-        # Loop through actions
+        a = actions(board)
+        best_val = float('-inf')
         for action in a:
-            print(action)
-            possible_board = result(board, action)
-            # get utility of board, keep highest
-            util = utility(possible_board)
-            if util > v:
+            val = min_value(result(board, action))
+            if val > best_val:
+                best_val = val
                 best_action = action
         return best_action
- 
+    if p == 'O':
+        a = actions(board)
+        best_val = float('inf')
+        for action in a:
+            val = max_value(result(board, action))
+            if val < best_val:
+                best_val = val
+                best_action = action
+        return best_action
+    
 
-def main():
-    board = [['X', 'X', EMPTY],
-             ['O', 'X', 'O'],
-             [EMPTY, 'O', EMPTY]]
-    minimax(board)
-    return
+def max_value(board):
+    if terminal(board):
+        return utility(board)
+    best_val = float('-inf')
+    a = actions(board)
+    for action in a:
+        v = max(best_val, min_value(result(board, action)))
+        if v > best_val:
+            best_val = v
+    return best_val 
 
-if __name__ == '__main__':
-    main()
+
+def min_value(board):
+    if terminal(board):
+        return utility(board)
+    best_val = float('inf')
+    a = actions(board)
+    for action in a:
+        v = min(best_val, max_value(result(board, action)))
+        if v < best_val:
+            best_val = v
+    return best_val
